@@ -1,0 +1,19 @@
+<nav class="navbar navbar-inverse navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" (click)="isCollapsed = !isCollapsed">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+      </button>
+      <a [routerLink]="['/']" class="navbar-brand">Angular Example</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse" [collapse]="isCollapsed">
+      <ul class="nav navbar-nav">
+        <li *ngIf="usuarioLogado()"><a [routerLink]="['/contatos']">Contatos</a></li>
+      </ul>
+      <app-menu-login></app-menu-login>
+    </div>
+  </div>
+</nav>
