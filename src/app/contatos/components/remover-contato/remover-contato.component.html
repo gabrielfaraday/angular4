@@ -1,0 +1,35 @@
+<app-menu-superior></app-menu-superior>
+<div class="container main-container">
+
+<h2>Excluir Evento</h2>
+
+<h3>Tem certeza que deseja excluir este evento?</h3>
+<div>
+    <h4>{{ evento.nome }}</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <input type="hidden" asp-for="Id" />
+        <dt>
+          Data
+        </dt>
+        <dd>
+            {{ evento.dataInicio | date:'dd/MM/yyyy' }} até {{ evento.dataFim | date:'dd/MM/yyyy' }}
+        </dd>
+        <dt>
+          Valor
+        </dt>
+        <dd>
+          <p *ngIf='evento.valor != 0'>{{ evento.valor | currency:'BRL':true:'1.2-2' }}</p>
+          <p *ngIf='evento.valor == 0'>Gratuito</p>
+        </dd>       
+    </dl>
+    
+    <form novalidate (ngSubmit)="excluirEvento()">
+        <div class="form-actions no-color">
+            <input type="submit" value="Excluir" class="btn btn-danger" />
+            <a [routerLink]="['/eventos/meus-eventos']" class="btn btn-primary">Voltar para a lista</a>
+        </div>
+    </form>
+</div>
+
+</div>

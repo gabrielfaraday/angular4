@@ -1,0 +1,44 @@
+<app-menu-superior></app-menu-superior>
+<div class="container main-container">
+  <h2>Lista dos Próximos Eventos</h2>
+
+  <div class='text-danger' *ngIf='errorMessage'>{{errorMessage}}</div>
+
+  <div class="page-size">
+    <div class="panel panel-default">
+      <table class="table table-striped" *ngIf='eventos && eventos.length'>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Data de Início</th>
+            <th>Data de Encerramento</th>
+            <th>Valor</th>
+            <th>Online</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor='let evento of eventos'>
+            <td>{{ evento.nome }}</td>
+            <td>{{ evento.dataInicio | date:'dd/MM/yyyy' }}</td>
+            <td>{{ evento.dataFim | date:'dd/MM/yyyy' }}</td>
+
+            <td *ngIf='evento.valor != 0'>{{ evento.valor | currency:'BRL':true:'1.2-2' }}</td>
+            <td *ngIf='evento.valor == 0'>Gratuito</td>
+
+            <td [ngSwitch]="evento.online">
+              <span *ngSwitchCase="true" class="glyphicon glyphicon-ok"></span>
+              <span *ngSwitchCase="false" class="glyphicon glyphicon-unchecked"></span>
+            </td>
+
+            <td>
+              <a [routerLink]="['/eventos/detalhes', evento.id]" title="Detalhes" class="btn btn-primary">
+                <span class="glyphicon glyphicon-search"></span> Saber Mais
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

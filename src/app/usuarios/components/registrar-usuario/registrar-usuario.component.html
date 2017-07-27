@@ -1,0 +1,77 @@
+<app-menu-superior></app-menu-superior>
+<div class="container main-container">
+  <h4>Registre-se</h4>
+  <hr />
+  <form novalidate (ngSubmit)="registrar()" [formGroup]="registroForm">
+
+    <div class="form-horizontal">
+
+      <div class="alert alert-danger" *ngIf="errors.length > 0">
+        <h3 id="msgRetorno">Opa! Alguma coisa não deu certo:</h3>
+        <ul>
+          <li *ngFor="let error of errors">{{ error }}</li>
+        </ul>
+      </div>
+
+      <div class="form-group" [ngClass]="{'has-error': displayMessage.nome }">
+        <label class="col-md-2 control-label" for="nome">Nome Completo</label>
+        <div class="col-md-10">
+          <input class="form-control" id="nome" type="text" placeholder="Nome" formControlName="nome" />
+          <span class="text-danger" *ngIf="displayMessage.nome">
+              <p [innerHTML]="displayMessage.nome"></p>
+        </span>
+        </div>
+      </div>
+
+      <div class="form-group" [ngClass]="{'has-error': displayMessage.cpf }">
+        <label class="col-md-2 control-label">CPF</label>
+        <div class="col-md-10">
+          <input class="form-control" type="text" placeholder="CPF" formControlName="cpf" />
+          <span class="text-danger" *ngIf="displayMessage.cpf">
+             <p [innerHTML]="displayMessage.cpf"></p>
+        </span>
+        </div>
+      </div>
+
+      <div class="form-group" [ngClass]="{'has-error': displayMessage.email }">
+        <label class="col-md-2 control-label">E-mail</label>
+        <div class="col-md-10">
+          <input class="form-control" type="text" placeholder="E-mail" formControlName="email" />
+          <span class="text-danger" *ngIf="displayMessage.email">
+              <p [innerHTML]="displayMessage.email"></p>
+        </span>
+        </div>
+      </div>
+
+      <div class="form-group" [ngClass]="{'has-error': displayMessage.password }">
+        <label class="col-md-2 control-label">Senha</label>
+        <div class="col-md-10">
+          <input class="form-control" type="password" placeholder="Senha" formControlName="password" />
+          <span class="text-danger" *ngIf="displayMessage.password">
+              <p [innerHTML]="displayMessage.password"></p>
+        </span>
+        </div>
+      </div>
+
+      <div class="form-group" [ngClass]="{'has-error': displayMessage.confirmPassword }">
+        <label class="col-md-2 control-label">Confirme a Senha</label>
+        <div class="col-md-10">
+          <input class="form-control" type="password" placeholder="Confirme a Senha" formControlName="senhaConfirmacao"
+          />
+          <span class="text-danger" *ngIf="displayMessage.confirmPassword">
+              <p [innerHTML]="displayMessage.confirmPassword"></p>
+        </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-4 col-md-offset-2">
+          <span><button class="btn btn-success" type="submit" [disabled]='!registroForm.valid'>Registrar</button></span>
+        </div>
+      </div>
+    </div>
+
+  </form>
+  <div class='has-error'>{{registroForm.valid}}</div>
+  <div class='has-error'>{{errors}}</div>
+</div>

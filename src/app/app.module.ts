@@ -1,31 +1,56 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { BrowserModule, Title } from '@angular/platform-browser';
+import { NgModule, ErrorHandler } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+import { RouterModule } from '@angular/router';
+import { rootRouterConfig } from './app.routes';
+import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
-import  { CollapseModule } from 'ngx-bootstrap/collapse';
+// bootstrap
+import { AlertModule } from 'ngx-bootstrap';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 
+// components
 import { AppComponent } from './app.component';
-import { MenuSuperiorComponent } from './shared/menu-superior/menu-superior.component';
-import { FooterComponent } from './shared/footer/footer.component';
-import { MainPrincipalComponent } from './shared/main-principal/main-principal.component';
 import { HomeComponent } from './home/home.component';
-import { MenuLoginComponent } from './shared/menu-login/menu-login.component';
-import { ListaContatosComponent } from './contatos/lista-contatos/lista-contatos.component';
+
+// services
+
+// modules
+import { SharedModule } from "./shared/shared.module";
+import { RegistrarUsuarioComponent } from './usuarios/components/registrar-usuario/registrar-usuario.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MenuSuperiorComponent,
-    FooterComponent,
-    MainPrincipalComponent,
     HomeComponent,
-    MenuLoginComponent,
-    ListaContatosComponent
+    InscricaoComponent,
+    LoginComponent,
+    AcessoNegadoComponent,
+    RegistrarUsuarioComponent
   ],
   imports: [
     BrowserModule,
-    CollapseModule.forRoot()
+    BrowserAnimationsModule,
+    FormsModule,
+    HttpModule,
+    SharedModule,
+    ReactiveFormsModule,
+    ToastModule.forRoot(),
+    AlertModule.forRoot(),
+    CollapseModule.forRoot(),
+    CarouselModule.forRoot(),
+    RouterModule.forRoot(rootRouterConfig, { useHash: false })
   ],
-  providers: [],
+  providers: [
+    Title,
+    SeoService,
+    OrganizadorService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
