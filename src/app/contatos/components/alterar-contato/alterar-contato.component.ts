@@ -10,37 +10,40 @@ import 'rxjs/add/observable/merge';
 
 import { ToastsManager, Toast } from 'ng2-toastr/ng2-toastr';
 import { IMyOptions } from "mydatepicker";
+import { DateUtils } from "../../../utils/data-types-utils/date-utils";
 
-import { Evento, Endereco, Categoria } from "../models/evento";
-import { EventoService } from "../services/evento.service";
+import { Contato } from "../../models/contato";
+import { Endereco } from "../../models/endereco";
+import { Telefone } from "../../models/telefone";
 
-import { CurrencyUtils } from "../../common/data-type-utils/currency-utils";
-import { GenericValidator } from "../../common/validation/generic-form-validator";
-import { DateUtils } from "../../common/data-type-utils/date-utils";
+import { ContatoService } from "../../services/contatos.service";
+
+import { GenericValidator } from "../../../utils/validation/generic-form-validator";
+import { CustomValidators } from "ng2-validation/dist";
 
 @Component({
-  selector: 'app-editar-evento',
-  templateUrl: './editar-evento.component.html',
-  styleUrls: ['./editar-evento.component.css']
+  selector: 'app-alterar-contato',
+  templateUrl: './alterar-contato.component.html',
+  styleUrls: ['./alterar-contato.component.css']
 })
-export class EditarEventoComponent implements OnInit, AfterViewInit {
+export class AlterarContatoComponent implements OnInit, AfterViewInit {
   @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
 
   private myDatePickerOptions = DateUtils.getMyDatePickerOptions();
 
   public errors: any[] = [];
   public errorsEndereco: any[] = [];
-  eventoForm: FormGroup;
-  enderecoForm: FormGroup;
-  evento: Evento;
+  contatoForm: FormGroup;
+  telefoneForm: FormGroup;
+  contato: Contato;
   endereco: Endereco;
-  categorias: Categoria[];
-  eventoId: string = "";
+  telefone: Telefone;
+  contatoId: string = "";
   private sub: Subscription;
   private modalVisible: boolean;
 
   constructor(private fb: FormBuilder,
-    private eventoService: EventoService,
+    private contatoService: ContatoService,
     private router: Router,
     private route: ActivatedRoute,
     private toastr: ToastsManager,
@@ -54,20 +57,16 @@ export class EditarEventoComponent implements OnInit, AfterViewInit {
         minlength: 'O Nome precisa ter no mínimo 2 caracteres',
         maxlength: 'O Nome precisa ter no máximo 150 caracteres'
       },
-      dataInicio: {
-        required: 'Informe a data de início'
-      },
-      dataFim: {
-        required: 'Informe a data de encerramento'
-      },
-      categoriaId: {
-        required: 'Informe a categoria'
+      email: {
+        required: 'Informe o e-mail',
+        email: 'E-mail invalido'
       }
     };
 
     this.genericValidator = new GenericValidator(this.validationMessages);
-    this.evento = new Evento();
-    this.evento.endereco = new Endereco();
+    this.contato = new Contato();
+    this.contato.endereco = new Endereco();
+    this.contato.telefones = new Array<Telefone>();
     this.modalVisible = false;
   }
 
@@ -76,152 +75,132 @@ export class EditarEventoComponent implements OnInit, AfterViewInit {
   private genericValidator: GenericValidator;
 
   ngOnInit() {
-    this.eventoForm = this.fb.group({
-      nome: ['', [Validators.required,
-      Validators.minLength(2),
-      Validators.maxLength(150)]],
-      categoriaId: ['', Validators.required],
-      descricaoCurta: '',
-      descricaoLonga: '',
-      dataInicio: ['', Validators.required],
-      dataFim: ['', Validators.required],
-      gratuito: '',
-      valor: '0',
-      online: '',
-      nomeEmpresa: ''
+    this.contatoForm = this.fb.group({
+      nome: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(150)]],
+      email: ['', [Validators.required, CustomValidators.email]],
+      logradouro: ['', [Validators.required]],
+      numero: ['', [Validators.required]],
+      complemento: '',
+      bairro: ['', [Validators.required]],
+      cep: ['', [Validators.required]],
+      cidade: ['', [Validators.required]],
+      estado: ['', [Validators.required]]
     });
 
-    this.enderecoForm = this.fb.group({
-      logradouro: ['', Validators.required],
-      numero: ['', Validators.required],
-      complemento: '',
-      bairro: ['', Validators.required],
-      cep: ['', Validators.required],
-      cidade: ['', Validators.required],
-      estado: ['', Validators.required],
+    this.telefoneForm = this.fb.group({
+      ddd: ['', Validators.required],
+      numero: ['', Validators.required]
     });
 
     this.sub = this.route.params.subscribe(
       params => {
-        this.eventoId = params['id'];
-        this.obterEvento(this.eventoId);
+        this.contatoId = params['id'];
+        this.obterContato(this.contatoId);
       }
     );
-
-    this.eventoService.obterCategorias()
-      .subscribe(categorias => this.categorias = categorias,
-      error => this.errors);
   }
 
   ngAfterViewInit(): void {
     let controlBlurs: Observable<any>[] = this.formInputElements
       .map((formControl: ElementRef) => Observable.fromEvent(formControl.nativeElement, 'blur'));
 
-    Observable.merge(this.eventoForm.valueChanges, ...controlBlurs).debounceTime(100).subscribe(value => {
-      this.displayMessage = this.genericValidator.processMessages(this.eventoForm);
+    Observable.merge(this.contatoForm.valueChanges, ...controlBlurs).debounceTime(100).subscribe(value => {
+      this.displayMessage = this.genericValidator.processMessages(this.contatoForm);
     });
   }
 
-  obterEvento(id: string) {
-    this.eventoService.obterEvento(id)
+  obterContato(id: string) {
+    this.contatoService.obterContato(id)
       .subscribe(
-      evento => this.preencherFormEvento(evento),
-      response => {
-        if (response.status == 404) {
-          this.router.navigate(['NotFound']);
-        }
-      });
+        contato => this.preencherFormContato(contato),
+        response => {
+          if (response.status == 404) {
+            this.router.navigate(['NotFound']);
+          }
+        });
   }
 
-  preencherFormEvento(evento: Evento): void {
-    this.evento = evento;
+  preencherFormContato(contato: Contato): void {
+    this.contato = contato;
 
-    let valorBrl = CurrencyUtils.ToPrice(this.evento.valor);
-
-    this.eventoForm.patchValue({
-      nome: this.evento.nome,
-      categoriaId: this.evento.categoriaId,
-      descricaoCurta: this.evento.descricaoCurta,
-      descricaoLonga: this.evento.descricaoLonga,
-      dataInicio: DateUtils.setMyDatePickerDate(this.evento.dataInicio),
-      dataFim: DateUtils.setMyDatePickerDate(this.evento.dataFim),
-      gratuito: this.evento.gratuito,
-      valor: valorBrl,
-      online: this.evento.online,
-      nomeEmpresa: this.evento.nomeEmpresa,
+    this.contatoForm.patchValue({
+      nome: this.contato.nome,
+      email: this.contato.email,
+      dataNascimento: DateUtils.setMyDatePickerDate(this.contato.dataNascimento),
+      logradouro: this.contato.endereco.logradouro,
+      numero: this.contato.endereco.numero,
+      complemento: this.contato.endereco.complemento,
+      bairro: this.contato.endereco.bairro,
+      cep: this.contato.endereco.cep,
+      cidade: this.contato.endereco.cidade,
+      estado: this.contato.endereco.estado
     });
 
-    if (this.evento.endereco) {
-      this.enderecoForm.patchValue({
-        logradouro: this.evento.endereco.logradouro,
-        numero: this.evento.endereco.numero,
-        complemento: this.evento.endereco.complemento,
-        bairro: this.evento.endereco.bairro,
-        cep: this.evento.endereco.cep,
-        cidade: this.evento.endereco.cidade,
-        estado: this.evento.endereco.estado
-      });
-    }
+    // if (this.contato.telefones.some) {
+    //   this.telefoneForm.patchValue({
+    //     ddd: this.evento.endereco.logradouro,
+    //     numero: this.evento.endereco.numero,
+    //   });
+    // }
   }
 
-  editarEvento() {
-    if (this.eventoForm.dirty && this.eventoForm.valid) {
-      let p = Object.assign({}, this.evento, this.eventoForm.value);
-      let user = this.eventoService.obterUsuario();
-      p.organizadorId = user.id;
-      p.dataInicio = DateUtils.getMyDatePickerDate(p.dataInicio);
-      p.dataFim = DateUtils.getMyDatePickerDate(p.dataFim);
-      p.valor = CurrencyUtils.ToDecimal(p.valor);
+  alterarContato() {
+    if (this.contatoForm.dirty && this.contatoForm.valid) {
+      let p = Object.assign({}, this.contato, this.contatoForm.value);
+      let user = this.contatoService.obterUsuario();
+      
+      //p.organizadorId = user.id;
+      p.dataNascimento = DateUtils.getMyDatePickerDate(p.dataNascimento);
 
-      this.eventoService.atualizarEvento(p)
+      this.contatoService.alterarContato(p)
         .subscribe(
-        result => { this.onSaveComplete() },
-        error => {
-          this.errors = JSON.parse(error._body).errors;
-        });
+          result => { this.onSaveComplete() },
+          error => {
+            this.errors = JSON.parse(error._body).errors;
+          });
     }
   }
 
-  atualizarEndereco() {
-    if (this.enderecoForm.dirty && this.enderecoForm.valid) {
-      let p = Object.assign({}, this.endereco, this.enderecoForm.value);
-      p.eventoId = this.eventoId;
+  alterarTelefone() {
+    if (this.telefoneForm.dirty && this.telefoneForm.valid) {
+      let p = Object.assign({}, this.endereco, this.telefoneForm.value);
+      p.contatoId = this.contatoId;
 
-      if (this.evento.endereco) {
-        p.id = this.evento.endereco.id;
-        this.eventoService.atualizarEndereco(p)
+      if (this.contato.telefoneEmAlteracao) {
+        p.id = this.contato.telefoneEmAlteracao.id;
+        this.contatoService.alterarTelefone(p)
           .subscribe(
-          result => { this.onEnderecoSaveComplete() },
-          error => {
-            this.errorsEndereco = JSON.parse(error._body).errors;
-          });
+            result => { this.onTelefoneSaveComplete() },
+            error => {
+              this.errorsEndereco = JSON.parse(error._body).errors;
+            });
       }
       else {
-        this.eventoService.adicionarEndereco(p)
+        this.contatoService.adicionarTelefone(p)
           .subscribe(
-          result => { this.onEnderecoSaveComplete() },
-          error => {
-            this.errorsEndereco = JSON.parse(error._body).errors;
-          });
+            result => { this.onTelefoneSaveComplete() },
+            error => {
+              this.errorsEndereco = JSON.parse(error._body).errors;
+            });
       }
     }
   }
 
-  onEnderecoSaveComplete(): void {
+  onTelefoneSaveComplete(): void {
     this.hideModal();
 
-    this.toastr.success('Endereco Atualizado', 'Oba :D');
-    this.obterEvento(this.eventoId);
+    this.toastr.success('Telefone Atualizado', 'Oba :D');
+    this.obterContato(this.contatoId);
   }
 
   onSaveComplete(): void {
     this.errors = [];
 
-    this.toastr.success('Evento Atualizado com Sucesso!', 'Oba :D', { dismiss: 'controlled' })
+    this.toastr.success('Contato Atualizado com Sucesso!', 'Oba :D', { dismiss: 'controlled' })
       .then((toast: Toast) => {
         setTimeout(() => {
           this.toastr.dismissToast(toast);
-          this.router.navigate(['/eventos/meus-eventos']);
+          this.router.navigate(['/contatos']);
         }, 2500);
       });
   }

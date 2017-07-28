@@ -1,15 +1,15 @@
 import { Routes } from '@angular/router';
 
 import { HomeComponent } from './home/home.component';
-import { AcessoNegadoComponent } from './shared/acesso-negado/acesso-negado.component';
-import { InscricaoComponent } from "./usuario/inscricao/inscricao.component";
-import { LoginComponent } from './usuario/login/login.component';
+import { RegistrarUsuarioComponent } from "./usuarios/components/registrar-usuario/registrar-usuario.component";
+import { LoginComponent } from "./usuarios/components/login/login.component";
+import { AcessoNegadoComponent } from "./shared/components/acesso-negado/acesso-negado.component";
 
 export const rootRouterConfig: Routes = [
     { path: '', component: HomeComponent },
     { path: 'home', component: HomeComponent },
-    { path: 'inscricao', component: InscricaoComponent },
-    { path: 'entrar', component: LoginComponent },
+    { path: 'registrar', component: RegistrarUsuarioComponent },
+    { path: 'login', component: LoginComponent },
     { path: 'acesso-negado', component: AcessoNegadoComponent },
-    { path: 'eventos', loadChildren: 'app/eventos/evento.module#EventosModule' },
+    { path: 'contatos', loadChildren: 'app/contatos/contato.module#ContatosModule' },
 ];

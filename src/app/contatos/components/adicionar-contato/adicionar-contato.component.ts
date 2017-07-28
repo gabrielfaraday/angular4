@@ -66,13 +66,13 @@ export class AdicionarContatoComponent implements OnInit, AfterViewInit {
     this.contatoForm = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(150)]],
       email: ['', [Validators.required, CustomValidators.email]],
-      // logradouro: '',
-      // numero: '',
-      // complemento: '',
-      // bairro: '',
-      // cep: '',
-      // cidade: '',
-      // estado: '',
+      logradouro: ['', [Validators.required]],
+      numero: ['', [Validators.required]],
+      complemento: '',
+      bairro: ['', [Validators.required]],
+      cep: ['', [Validators.required]],
+      cidade: ['', [Validators.required]],
+      estado: ['', [Validators.required]]
     });
   }
 
@@ -85,7 +85,7 @@ export class AdicionarContatoComponent implements OnInit, AfterViewInit {
     });
   }
 
-  adicionarEvento() {
+  adicionarContato() {
     if (this.contatoForm.dirty && this.contatoForm.valid) {
       let user = this.contatoService.obterUsuario();
 

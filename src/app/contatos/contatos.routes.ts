@@ -1,26 +1,23 @@
 import { Routes } from '@angular/router';
 
 import { ContatosComponent } from "./contatos.component";
+import { ListaContatosComponent } from "./components/lista-contatos/lista-contatos.component";
+import { AuthService } from "../shared/services/auth.service";
+import { AdicionarContatoComponent } from "./components/adicionar-contato/adicionar-contato.component";
+import { DetalhesContatoComponent } from "./components/detalhes-contato/detalhes-contato.component";
+import { AlterarContatoComponent } from "./components/alterar-contato/alterar-contato.component";
+import { RemoverContatoComponent } from "./components/remover-contato/remover-contato.component";
 
-import { ListaEventosComponent } from './lista-eventos/lista-eventos.component';
-import { AdicionarEventoComponent } from "./adicionar-evento/adicionar-evento.component";
-import { EditarEventoComponent } from "./editar-evento/editar-evento.component";
-import { MeusEventosComponent } from "./meus-eventos/meus-eventos.component";
-import { DetalhesEventoComponent } from "./detalhes-evento/detalhes-evento.component";
-import { ExcluirEventoComponent } from "./excluir-evento/excluir-evento.component";
 
-import { AuthService } from "./services/auth.service";
-
-export const eventosRouterConfig: Routes = [
+export const contatosRouterConfig: Routes = [
     {
         path: '', component: ContatosComponent,
         children: [
-            { path: '', component: ListaEventosComponent },
-            { path: 'novo', canActivate: [AuthService], component: AdicionarEventoComponent, data: [{ claim: { nome: 'Eventos', valor: 'Gravar' } }] },
-            { path: 'meus-eventos', canActivate: [AuthService], component: MeusEventosComponent },
-            { path: 'editar/:id', canActivate: [AuthService], component: EditarEventoComponent, data: [{ claim: { nome: 'Eventos', valor: 'Gravar' } }] },
-            { path: 'detalhes/:id', component: DetalhesEventoComponent },
-            { path: 'excluir/:id', canActivate: [AuthService], component: ExcluirEventoComponent, data: [{ claim: { nome: 'Eventos', valor: 'Gravar' } }] }
+            { path: '', component: ListaContatosComponent },
+            { path: 'novo', canActivate: [AuthService], component: AdicionarContatoComponent, data: [{ claim: { nome: 'Contatos', valor: 'Gerenciar' } }] },
+            { path: 'alterar/:id', canActivate: [AuthService], component: AlterarContatoComponent, data: [{ claim: { nome: 'Contatos', valor: 'Gerenciar' } }] },
+            { path: 'detalhes/:id', canActivate: [AuthService], component: DetalhesContatoComponent, data: [{ claim: { nome: 'Contatos', valor: 'Ver' } }] },
+            { path: 'remover/:id', canActivate: [AuthService], component: RemoverContatoComponent, data: [{ claim: { nome: 'Contatos', valor: 'Gerenciar' } }] }
         ]
     }
 ];

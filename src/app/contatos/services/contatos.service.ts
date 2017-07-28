@@ -22,7 +22,7 @@ export class ContatoService extends BaseService {
       .catch(super.serviceError);
   }
 
-  obteContato(id: string): Observable<Contato> {
+  obterContato(id: string): Observable<Contato> {
     return this.http.get(this.UrlService + "/contatos/" + id)
       .map((res: Response) => <Contato[]>res.json())
       .catch(super.serviceError);
@@ -70,7 +70,7 @@ export class ContatoService extends BaseService {
     return response;
   };
 
-  atualizarEndereco(telefone: Telefone): Observable<Telefone> {
+  alterarTelefone(telefone: Telefone): Observable<Telefone> {
     let options = this.obterAuthHeader();
 
     let response = this.http

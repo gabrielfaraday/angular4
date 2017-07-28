@@ -16,18 +16,22 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
 // components
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { RegistrarUsuarioComponent } from './usuarios/components/registrar-usuario/registrar-usuario.component';
+import { LoginComponent } from "./usuarios/components/login/login.component";
+import { AcessoNegadoComponent } from "./shared/components/acesso-negado/acesso-negado.component";
 
 // services
+import { SeoService } from "./shared/services/seo.service";
+import { UsuarioService } from "./usuarios/services/usuario.service";
 
 // modules
 import { SharedModule } from "./shared/shared.module";
-import { RegistrarUsuarioComponent } from './usuarios/components/registrar-usuario/registrar-usuario.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    InscricaoComponent,
+    RegistrarUsuarioComponent,
     LoginComponent,
     AcessoNegadoComponent,
     RegistrarUsuarioComponent
@@ -48,7 +52,7 @@ import { RegistrarUsuarioComponent } from './usuarios/components/registrar-usuar
   providers: [
     Title,
     SeoService,
-    OrganizadorService
+    UsuarioService
   ],
   bootstrap: [AppComponent]
 })

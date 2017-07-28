@@ -4,62 +4,61 @@ import { FormControlName } from "@angular/forms";
 
 import { Subscription } from "rxjs/Subscription";
 import { ToastsManager, Toast } from 'ng2-toastr/ng2-toastr';
-
-import { Evento } from "../models/evento";
-import { EventoService } from "../services/evento.service";
+import { Contato } from "../../models/contato";
+import { ContatoService } from "../../services/contatos.service";
 
 @Component({
-  selector: 'app-excluir-evento',
-  templateUrl: './excluir-evento.component.html',
-  styleUrls: ['./excluir-evento.component.css']
+  selector: 'app-remover-contato',
+  templateUrl: './remover-contato.component.html',
+  styleUrls: ['./remover-contato.component.css']
 })
-export class ExcluirEventoComponent implements OnInit {
+export class RemoverContatoComponent implements OnInit {
   @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
 
   private sub: Subscription;
-  eventoId: string = "";
-  public evento: Evento;
+  contatoId: string = "";
+  public contato: Contato;
 
-  constructor(private eventoService: EventoService,
+  constructor(private contatoService: ContatoService,
     private route: ActivatedRoute,
     private router: Router,
     private toastr: ToastsManager,
     vcr: ViewContainerRef) {
 
     this.toastr.setRootViewContainerRef(vcr);
-    this.evento = new Evento();
+    this.contato = new Contato();
   }
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(
       params => {
-        this.eventoId = params['id'];
+        this.contatoId = params['id'];
       });
 
-    this.eventoService.obterEvento(this.eventoId)
+    this.contatoService.obterContato(this.contatoId)
       .subscribe(
-      evento => { this.evento = evento; },
-      response => {
-        if (response.status == 404) {
-          this.router.navigate(['/NotFound']);
-        }
-      });
+        contato => { this.contato = contato; },
+        response => {
+          if (response.status == 404) {
+            this.router.navigate(['/NotFound']);
+          }
+        });
   }
 
-  public excluirEvento() {
-    this.eventoService.excluirEvento(this.eventoId)
+  public removerContato() {
+    this.contatoService.removerContato(this.contatoId)
       .subscribe(
-      evento => { this.onDeleteComplete(evento) },
-      error => { this.onError() }
-      );
+        contato => { this.onDeleteComplete(contato) },
+        error => { this.onError() }
+        );
   }
 
-  public onDeleteComplete(evento: any) {
-    this.toastr.success('Evento excluido com Sucesso!', 'Good bye :D', { dismiss: 'controlled' })
+  public onDeleteComplete(contato: any) {
+    this.toastr.success('Contato removido com Sucesso!', 'Good bye :D', { dismiss: 'controlled' })
       .then((toast: Toast) => {
         setTimeout(() => {
           this.toastr.dismissToast(toast);
-          this.router.navigate(['/eventos/meus-eventos']);
+          this.router.navigate(['/contatos']);
         }, 2500);
       });
   }

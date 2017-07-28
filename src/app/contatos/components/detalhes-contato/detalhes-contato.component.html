@@ -1,34 +1,14 @@
 <app-menu-superior></app-menu-superior>
 <div class="container main-container">
   <div class="jumbotron">
-    <h2>{{ evento.nome }}</h2>
-    <h4>{{ evento.descricaoCurta }}</h4>
+    <h2>{{ contato.nome }}</h2>
+    <h4>{{ contato.email }}</h4>
   </div>
 
   <div class="container">
     <div>
       <div class="row">
-        {{ evento.descricaoLonga }}
-      </div>
-      <hr />
-      <br />
-      <div class="row">
-        <b>Quando:</b><br /> {{ evento.dataInicio | date:'dd/MM/yyyy' }} até {{ evento.dataFim | date:'dd/MM/yyyy' }}
-      </div>
-      <br />
-      <div class="row">
-        <p *ngIf='evento.valor != 0'><b>Valor:</b><br />{{ evento.valor | currency:'BRL':true:'1.2-2' }}</p>
-        <p *ngIf='evento.valor == 0'><b>Valor:</b><br />Gratuito</p>
-      </div>
-      <br />
-      <div class="row">
-        <b>Organizado por:</b><br /> {{ evento.nomeEmpresa }}
-      </div>
-      <br />
-      <div class="row">
-        <b>Onde?</b><br />
-        <iframe width="600" height="450" frameborder="0" style="border:0" [src]="enderecoMap" allowfullscreen></iframe>
+        <b>Nascimento:</b><br /> {{ contato.dataNascimento | date:'dd/MM/yyyy' }}
       </div>
     </div>
   </div>
-</div>
