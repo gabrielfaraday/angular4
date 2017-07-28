@@ -11,5 +11,5 @@ export const rootRouterConfig: Routes = [
     { path: 'registrar', component: RegistrarUsuarioComponent },
     { path: 'login', component: LoginComponent },
     { path: 'acesso-negado', component: AcessoNegadoComponent },
-    { path: 'contatos', loadChildren: 'app/contatos/contato.module#ContatosModule' },
+    { path: 'contatos', loadChildren: 'app/contatos/contatos.module#ContatosModule' },
 ];

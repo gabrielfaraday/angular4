@@ -18,7 +18,6 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { RegistrarUsuarioComponent } from './usuarios/components/registrar-usuario/registrar-usuario.component';
 import { LoginComponent } from "./usuarios/components/login/login.component";
-import { AcessoNegadoComponent } from "./shared/components/acesso-negado/acesso-negado.component";
 
 // services
 import { SeoService } from "./shared/services/seo.service";
@@ -32,16 +31,14 @@ import { SharedModule } from "./shared/shared.module";
     AppComponent,
     HomeComponent,
     RegistrarUsuarioComponent,
-    LoginComponent,
-    AcessoNegadoComponent,
-    RegistrarUsuarioComponent
+    LoginComponent
   ],
   imports: [
+    SharedModule,
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
     HttpModule,
-    SharedModule,
     ReactiveFormsModule,
     ToastModule.forRoot(),
     AlertModule.forRoot(),

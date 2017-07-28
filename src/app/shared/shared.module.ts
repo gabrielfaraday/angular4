@@ -26,7 +26,8 @@ import { AcessoNegadoComponent } from "./components/acesso-negado/acesso-negado.
     exports: [
         MenuSuperiorComponent,
         FooterComponent,
-        MenuLoginComponent
+        MenuLoginComponent,
+        AcessoNegadoComponent
         ]
 })
 export class SharedModule { }
