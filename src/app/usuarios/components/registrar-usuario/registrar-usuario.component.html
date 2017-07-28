@@ -56,7 +56,7 @@
       <div class="form-group" [ngClass]="{'has-error': displayMessage.confirmPassword }">
         <label class="col-md-2 control-label">Confirme a Senha</label>
         <div class="col-md-10">
-          <input class="form-control" type="password" placeholder="Confirme a Senha" formControlName="senhaConfirmacao"
+          <input class="form-control" type="password" placeholder="Confirme a Senha" formControlName="confirmPassword"
           />
           <span class="text-danger" *ngIf="displayMessage.confirmPassword">
               <p [innerHTML]="displayMessage.confirmPassword"></p>
@@ -72,6 +72,4 @@
     </div>
 
   </form>
-  <div class='has-error'>{{registroForm.valid}}</div>
-  <div class='has-error'>{{errors}}</div>
 </div>

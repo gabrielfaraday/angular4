@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         required: 'Informe o e-mail',
         email: 'E-mail invalido'
       },
-      senha: {
+      password: {
         required: 'Informe a senha',
         minlength: 'A senha deve possuir no mínimo 6 caracteres'
       }
@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, CustomValidators.email]],
-      senha: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 

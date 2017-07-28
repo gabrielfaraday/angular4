@@ -11,27 +11,27 @@
             "name": "Launch Chrome against localhost, with sourcemaps",
             "type": "chrome",
             "request": "launch",
-            "url": "http://localhost:4200/home",
+            "url": "http://localhost:4200/registrar",
             "sourceMaps": true,
             "webRoot": "${workspaceRoot}",
-            "diagnosticLogging": true,
+            "trace": true,
             "sourceMapPathOverrides": {
                 "webpack:///./*": "${webRoot}/*"}
-        },
-        {
-            // chrome --remote-debugging-port=9222 http://localhost:4200
-            // https://github.com/angular/angular-cli/issues/2453 
-            "name": "Attach to Chrome, with sourcemaps",
-            "type": "chrome",
-            "request": "attach",
-            "url": "http://localhost:4200/home",
-            "port": 9222,
-            "sourceMaps": true,
-            "webRoot": "${workspaceRoot}",
-            "diagnosticLogging": true,
-            "sourceMapPathOverrides": {
-                "webpack:///./*": "${webRoot}/*"
-            }
         }
+        // ,{
+        //     // chrome --remote-debugging-port=9222 http://localhost:4200
+        //     // https://github.com/angular/angular-cli/issues/2453 
+        //     "name": "Attach to Chrome, with sourcemaps",
+        //     "type": "chrome",
+        //     "request": "attach",
+        //     "url": "http://localhost:4200/home",
+        //     "port": 9222,
+        //     "sourceMaps": true,
+        //     "webRoot": "${workspaceRoot}",
+        //     "diagnosticLogging": true,
+        //     "sourceMapPathOverrides": {
+        //         "webpack:///./*": "${webRoot}/*"
+        //     }
+        // }
     ]
 }

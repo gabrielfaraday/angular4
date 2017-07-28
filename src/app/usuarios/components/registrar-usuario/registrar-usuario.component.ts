@@ -51,11 +51,11 @@ export class RegistrarUsuarioComponent implements OnInit, AfterViewInit {
         required: 'Informe o e-mail',
         email: 'E-mail invalido'
       },
-      senha: {
+      password: {
         required: 'Informe a senha',
         minlength: 'A senha deve possuir no mínimo 6 caracteres'
       },
-      senhaConfirmacao: {
+      confirmPassword: {
         required: 'Informe a senha novamente',
         minlength: 'A senha deve possuir no mínimo 6 caracteres',
         equalTo: 'As senhas não conferem'
@@ -78,8 +78,8 @@ export class RegistrarUsuarioComponent implements OnInit, AfterViewInit {
       nome: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(150)]],
       cpf: ['', [Validators.required, CustomValidators.rangeLength([11, 11])]],
       email: ['', [Validators.required, CustomValidators.email]],
-      senha: senha,
-      senhaConfirmacao: senhaConfirmacao
+      password: senha,
+      confirmPassword: senhaConfirmacao
     });
   }
 
@@ -87,7 +87,7 @@ export class RegistrarUsuarioComponent implements OnInit, AfterViewInit {
     let controlBlurs: Observable<any>[] = this.formInputElements
       .map((formControl: ElementRef) => Observable.fromEvent(formControl.nativeElement, 'blur'));
 
-    Observable.merge(this.registroForm.valueChanges, ...controlBlurs).debounceTime(100).subscribe(value => {
+    Observable.merge(this.registroForm.valueChanges, ...controlBlurs).debounceTime(300).subscribe(value => {
       this.displayMessage = this.genericValidator.processMessages(this.registroForm);
     });
   }

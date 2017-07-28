@@ -12,7 +12,7 @@
     <div id="navbar" class="navbar-collapse collapse" [collapse]="isCollapsed">
       <ul class="nav navbar-nav">
         <li><a [routerLink]="['/']">Home</a></li>
-        <li *ngIf="usuarioLogado()"><a [routerLink]="['/contatos']">Contatos</a></li>
+        <li><a [routerLink]="['/contatos']">Contatos</a></li>
       </ul>
       <app-menu-login></app-menu-login>
     </div>

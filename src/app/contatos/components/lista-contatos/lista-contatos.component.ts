@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Contato } from "../../models/contato";
 import { SeoService } from "../../../shared/services/seo.service";
 import { ContatoService } from "../../services/contatos.service";
@@ -16,12 +15,8 @@ export class ListaContatosComponent implements OnInit {
   errorMessage: string;
 
   constructor(seoService: SeoService,
-     public service: ContatoService,
-     public toastr: ToastsManager,
-     vcr: ViewContainerRef) {
-    
-      this.toastr.setRootViewContainerRef(vcr);
-
+     public service: ContatoService) {
+       
       let seoModel: SeoModel = <SeoModel>{
         title: 'Contatos',
         description: 'Lista dos contatos',
