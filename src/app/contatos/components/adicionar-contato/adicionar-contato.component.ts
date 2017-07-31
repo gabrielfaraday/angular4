@@ -18,6 +18,7 @@ import { ContatoService } from "../../services/contatos.service";
 import { GenericValidator } from "../../../utils/validation/generic-form-validator";
 import { Endereco } from "../../models/endereco";
 import { CustomValidators } from "ng2-validation/dist";
+import { StringUtils } from "../../../utils/data-types-utils/string-utils";
 
 @Component({
   selector: 'app-adicionar-contato',
@@ -50,6 +51,24 @@ export class AdicionarContatoComponent implements OnInit, AfterViewInit {
       email: {
         required: 'Informe o e-mail',
         email: 'E-mail invalido'
+      },
+      logradouro: {
+        required: 'Informe o logradouro'
+      },
+      numero: {
+        required: 'Informe o número'
+      },
+      bairro: {
+        required: 'Informe o bairro'
+      },
+      cep: {
+        required: 'Informe o cep'
+      },
+      cidade: {
+        required: 'Informe o cidade'
+      },
+      estado: {
+        required: 'Informe o estado'
       }
     };
 
@@ -66,6 +85,7 @@ export class AdicionarContatoComponent implements OnInit, AfterViewInit {
     this.contatoForm = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(150)]],
       email: ['', [Validators.required, CustomValidators.email]],
+      dataNascimento: '',
       logradouro: ['', [Validators.required]],
       numero: ['', [Validators.required]],
       complemento: '',
@@ -91,18 +111,20 @@ export class AdicionarContatoComponent implements OnInit, AfterViewInit {
 
       let p = Object.assign({}, this.contato, this.contatoForm.value);
 
-      p.dataNascimento = DateUtils.getMyDatePickerDate(p.dataNascimento);
-      // p.endereco.logradouro = p.logradouro;
-      // p.endereco.numero = p.numero;
-      // p.endereco.complemento = p.complemento;
-      // p.endereco.bairro = p.bairro;
-      // p.endereco.cep = p.cep;
-      // p.endereco.cidade = p.cidade;
-      // p.endereco.estado = p.estado;
+      if (!StringUtils.isNullOrEmpty(p.dataNascimento))
+        p.dataNascimento = DateUtils.getMyDatePickerDate(p.dataNascimento);
+      
+      p.endereco.logradouro = p.logradouro;
+      p.endereco.numero = p.numero;
+      p.endereco.complemento = p.complemento;
+      p.endereco.bairro = p.bairro;
+      p.endereco.cep = p.cep;
+      p.endereco.cidade = p.cidade;
+      p.endereco.estado = p.estado;
 
       this.contatoService.adicionarContato(p)
         .subscribe(
-          result => { this.onSaveComplete() },
+          result => { this.onSaveComplete(result) },
           error => { this.onError(error); }
         );
     }
@@ -113,7 +135,7 @@ export class AdicionarContatoComponent implements OnInit, AfterViewInit {
     this.errors = JSON.parse(error._body).errors;
   }
 
-  onSaveComplete(): void {
+  onSaveComplete(contato: Contato): void {
     this.contatoForm.reset();
     this.errors = [];
 
@@ -121,7 +143,7 @@ export class AdicionarContatoComponent implements OnInit, AfterViewInit {
       .then((toast: Toast) => {
         setTimeout(() => {
           this.toastr.dismissToast(toast);
-          this.router.navigate(['/contatos']);
+          this.router.navigate(['/contatos/alterar/' + contato.id]);
         }, 2500);
       });
   }

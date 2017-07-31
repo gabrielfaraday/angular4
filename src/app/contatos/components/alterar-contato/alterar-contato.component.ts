@@ -32,7 +32,7 @@ export class AlterarContatoComponent implements OnInit, AfterViewInit {
   private myDatePickerOptions = DateUtils.getMyDatePickerOptions();
 
   public errors: any[] = [];
-  public errorsEndereco: any[] = [];
+  public errorsTelefone: any[] = [];
   contatoForm: FormGroup;
   telefoneForm: FormGroup;
   contato: Contato;
@@ -78,6 +78,7 @@ export class AlterarContatoComponent implements OnInit, AfterViewInit {
     this.contatoForm = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(150)]],
       email: ['', [Validators.required, CustomValidators.email]],
+      dataNascimento: '',
       logradouro: ['', [Validators.required]],
       numero: ['', [Validators.required]],
       complemento: '',
@@ -172,7 +173,7 @@ export class AlterarContatoComponent implements OnInit, AfterViewInit {
           .subscribe(
             result => { this.onTelefoneSaveComplete() },
             error => {
-              this.errorsEndereco = JSON.parse(error._body).errors;
+              this.errorsTelefone = JSON.parse(error._body).errors;
             });
       }
       else {
@@ -180,7 +181,7 @@ export class AlterarContatoComponent implements OnInit, AfterViewInit {
           .subscribe(
             result => { this.onTelefoneSaveComplete() },
             error => {
-              this.errorsEndereco = JSON.parse(error._body).errors;
+              this.errorsTelefone = JSON.parse(error._body).errors;
             });
       }
     }

@@ -48,17 +48,23 @@
         <hr>
         <h3>Endereço do Contato</h3>
 
-        <div class="form-group">
-          <label class="col-md-2 control-label">Logradouro</label>
+        <div class="form-group" [ngClass]="{'has-error': displayMessage.logradouro }">
+          <label class="col-md-2 control-label" for="logradouro">Logradouro</label>
           <div class="col-md-10">
             <input class="form-control" type="text" placeholder="Logradouro" formControlName="logradouro" />
+            <span class="text-danger" *ngIf="displayMessage.logradouro">
+                <p [innerHTML]="displayMessage.logradouro"></p>
+          </span>
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="col-md-2 control-label">Número</label>
+        <div class="form-group" [ngClass]="{'has-error': displayMessage.numero }">
+          <label class="col-md-2 control-label" for="numero">Número</label>
           <div class="col-md-10">
-            <input class="form-control" type="text" placeholder="Numero" formControlName="numero" />
+            <input class="form-control" type="text" placeholder="Número" formControlName="numero" />
+            <span class="text-danger" *ngIf="displayMessage.numero">
+                <p [innerHTML]="displayMessage.numero"></p>
+          </span>
           </div>
         </div>
 
@@ -69,32 +75,41 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="col-md-2 control-label">Bairro</label>
+        <div class="form-group" [ngClass]="{'has-error': displayMessage.bairro }">
+          <label class="col-md-2 control-label" for="bairro">Bairro</label>
           <div class="col-md-10">
             <input class="form-control" type="text" placeholder="Bairro" formControlName="bairro" />
+            <span class="text-danger" *ngIf="displayMessage.bairro">
+                <p [innerHTML]="displayMessage.bairro"></p>
+          </span>
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="col-md-2 control-label">CEP</label>
+        <div class="form-group" [ngClass]="{'has-error': displayMessage.cep }">
+          <label class="col-md-2 control-label" for="cep">CEP</label>
           <div class="col-md-10">
             <input class="form-control" type="text" placeholder="CEP" formControlName="cep" />
+            <span class="text-danger" *ngIf="displayMessage.cep">
+                <p [innerHTML]="displayMessage.cep"></p>
+          </span>
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="col-md-2 control-label">Cidade</label>
+        <div class="form-group" [ngClass]="{'has-error': displayMessage.cidade }">
+          <label class="col-md-2 control-label" for="cidade">Cidade</label>
           <div class="col-md-10">
             <input class="form-control" type="text" placeholder="Cidade" formControlName="cidade" />
+            <span class="text-danger" *ngIf="displayMessage.cidade">
+                <p [innerHTML]="displayMessage.cidade"></p>
+            </span>
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" [ngClass]="{'has-error': displayMessage.estado }">
           <label class="col-md-2 control-label">Estado</label>
           <div class="col-md-10">
             <select class="form-control" formControlName="estado">
-              <option value="">Estado</option>
+              <option value="">Selecione</option>
               <option value="AC">Acre</option>
               <option value="AL">Alagoas</option>
               <option value="AP">Amapá</option>
@@ -123,20 +138,20 @@
               <option value="SE">Sergipe</option>
               <option value="TO">Tocantins</option>
             </select>
+            <span class="text-danger" *ngIf="displayMessage.estado">
+                <p [innerHTML]="displayMessage.estado"></p>
+            </span>
           </div>
         </div>
       </div>
 
       <div class="form-group">
         <div class="col-md-4 col-md-offset-2">
-          <span><button class="btn btn-primary" type="submit" [disabled]='!contatoForm.valid'>Criar</button></span>
+          <span><button class="btn btn-primary" type="submit">Criar</button></span>
           <span><button class="btn btn-info" type="button" >Voltar para a lista</button></span>
         </div>
       </div>
     </div>
 
   </form>
-  <div class='has-error'>{{contatoForm.valid}}</div>
-  <div class='has-error'>{{contatoForm.values}}</div>
-  <div class='has-error'>{{errors}}</div>
 </div>

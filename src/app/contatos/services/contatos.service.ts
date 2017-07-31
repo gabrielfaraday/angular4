@@ -23,14 +23,16 @@ export class ContatoService extends BaseService {
   }
 
   obterContato(id: string): Observable<Contato> {
-    return this.http.get(this.UrlService + "/contatos/" + id)
+    let options = this.obterAuthHeader();
+
+    return this.http.get(this.UrlService + "/contatos/" + id, options)
       .map((res: Response) => <Contato[]>res.json())
       .catch(super.serviceError);
   }
 
   adicionarContato(contato: Contato): Observable<Contato> {
     let options = this.obterAuthHeader();
-    contato.id = undefined;
+    //contato.id = undefined;
 
     let response = this.http
       .post(this.UrlService + "contatos", contato, options)
