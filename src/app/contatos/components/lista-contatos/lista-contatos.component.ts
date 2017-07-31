@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Contato } from "../../models/contato";
+import { SeoModel } from "../../../shared/models/seo-model";
+
 import { SeoService } from "../../../shared/services/seo.service";
 import { ContatoService } from "../../services/contatos.service";
-import { SeoModel } from "../../../shared/models/seo-model";
+import { UsuarioAcessoService } from "../../../shared/services/usuario-acesso.service";
 
 @Component({
   selector: 'app-lista-contatos',
@@ -15,7 +17,8 @@ export class ListaContatosComponent implements OnInit {
   errorMessage: string;
 
   constructor(seoService: SeoService,
-     public service: ContatoService) {
+     public service: ContatoService,
+    private usuarioAcessoService: UsuarioAcessoService) {
        
       let seoModel: SeoModel = <SeoModel>{
         title: 'Contatos',
@@ -32,5 +35,9 @@ export class ListaContatosComponent implements OnInit {
       .subscribe(
         contatos => this.contatos = contatos,
         error => this.errorMessage);
+  }
+
+  validarClaim(claim: any) {
+      return this.usuarioAcessoService.validarClaim(claim);
   }
 }

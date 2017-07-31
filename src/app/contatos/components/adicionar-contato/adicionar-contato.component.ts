@@ -106,7 +106,6 @@ export class AdicionarContatoComponent implements OnInit, AfterViewInit {
 
   adicionarContato() {
     if (this.contatoForm.dirty && this.contatoForm.valid) {
-      let user = this.contatoService.obterUsuario();
 
       let p = Object.assign({}, this.contato, this.contatoForm.value);
 

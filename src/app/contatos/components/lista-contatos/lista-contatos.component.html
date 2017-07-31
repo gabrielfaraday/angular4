@@ -2,7 +2,7 @@
 <div class="container main-container">
   <h2>Contatos</h2>
 
-  <div class="row">
+  <div class="row" *ngIf="validarClaim({ nome: 'Contatos', valor: 'Gerenciar' })">
     <div class="col-md-12">
       <div class="pull-left">
         <a class="btn btn-primary" [routerLink]="['/contatos/novo']">
@@ -32,13 +32,16 @@
             <td>{{ contato.email }}</td>
             <td>{{ contato.dataNascimento | date:'dd/MM/yyyy' }}</td>
              <td>
-              <a [routerLink]="['/contatos/detalhes', contato.id]"  title="Detalhes" class="btn btn-primary">
+              <a *ngIf="validarClaim({ nome: 'Contatos', valor: 'Ver' })"
+                [routerLink]="['/contatos/detalhes', contato.id]"  title="Detalhes" class="btn btn-primary">
                 <span class="glyphicon glyphicon-search"></span>
               </a>
-              <a [routerLink]="['/contatos/alterar', contato.id]"  title="Alterar" class="btn btn-warning">
+              <a *ngIf="validarClaim({ nome: 'Contatos', valor: 'Gerenciar' })"
+                [routerLink]="['/contatos/alterar', contato.id]"  title="Alterar" class="btn btn-warning">
                 <span class="glyphicon glyphicon-pencil"></span>
               </a>
-              <a [routerLink]="['/contatos/remover', contato.id]"  title="Remover" class="btn btn-danger">
+              <a *ngIf="validarClaim({ nome: 'Contatos', valor: 'Gerenciar' })"
+                [routerLink]="['/contatos/remover', contato.id]"  title="Remover" class="btn btn-danger">
                 <span class="glyphicon glyphicon-trash"></span>
               </a>
             </td>

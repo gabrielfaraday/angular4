@@ -11,23 +11,29 @@ import { FooterComponent } from "./components/footer/footer.component";
 import { MenuLoginComponent } from "./components/menu-login/menu-login.component";
 import { AcessoNegadoComponent } from "./components/acesso-negado/acesso-negado.component";
 
+//Services
+import { UsuarioAcessoService } from "./services/usuario-acesso.service";
+
 @NgModule({
     imports: [
         CommonModule, 
         RouterModule,
         CollapseModule 
-        ],
+    ],
+    providers: [
+        UsuarioAcessoService
+    ],
     declarations: [
         MenuSuperiorComponent,
         FooterComponent,
         MenuLoginComponent,
         AcessoNegadoComponent
-        ],
+    ],
     exports: [
         MenuSuperiorComponent,
         FooterComponent,
         MenuLoginComponent,
         AcessoNegadoComponent
-        ]
+    ]
 })
 export class SharedModule { }

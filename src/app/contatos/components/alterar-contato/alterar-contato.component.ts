@@ -162,7 +162,6 @@ export class AlterarContatoComponent implements OnInit, AfterViewInit {
   alterarContato() {
     if (this.contatoForm.dirty && this.contatoForm.valid) {
       let p = Object.assign({}, this.contato, this.contatoForm.value);
-      let user = this.contatoService.obterUsuario();
       
       p.dataNascimento = DateUtils.getMyDatePickerDate(p.dataNascimento);
 

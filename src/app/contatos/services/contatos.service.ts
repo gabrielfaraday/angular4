@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
+
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -11,10 +12,6 @@ import { Telefone } from "../models/telefone";
 export class ContatoService extends BaseService {
 
   constructor(private http: Http) { super(); }
-
-  public obterUsuario() {
-    return JSON.parse(localStorage.getItem('dnce.user'));
-  }
 
   obterTodos(): Observable<Contato[]> {
     return this.http.get(this.UrlService + "contatos")
@@ -32,7 +29,6 @@ export class ContatoService extends BaseService {
 
   adicionarContato(contato: Contato): Observable<Contato> {
     let options = this.obterAuthHeader();
-    //contato.id = undefined;
 
     let response = this.http
       .post(this.UrlService + "contatos", contato, options)
