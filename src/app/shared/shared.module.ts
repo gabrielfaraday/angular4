@@ -10,6 +10,7 @@ import { MenuSuperiorComponent } from "./components/menu-superior/menu-superior.
 import { FooterComponent } from "./components/footer/footer.component";
 import { MenuLoginComponent } from "./components/menu-login/menu-login.component";
 import { AcessoNegadoComponent } from "./components/acesso-negado/acesso-negado.component";
+import { NaoEncontradoComponent } from "./components/nao-encontrado/nao-encontrado.component";
 
 //Services
 import { UsuarioAcessoService } from "./services/usuario-acesso.service";
@@ -27,13 +28,15 @@ import { UsuarioAcessoService } from "./services/usuario-acesso.service";
         MenuSuperiorComponent,
         FooterComponent,
         MenuLoginComponent,
-        AcessoNegadoComponent
+        AcessoNegadoComponent,
+        NaoEncontradoComponent
     ],
     exports: [
         MenuSuperiorComponent,
         FooterComponent,
         MenuLoginComponent,
-        AcessoNegadoComponent
+        AcessoNegadoComponent,
+        NaoEncontradoComponent
     ]
 })
 export class SharedModule { }

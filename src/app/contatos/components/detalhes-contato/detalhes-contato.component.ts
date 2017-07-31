@@ -36,12 +36,12 @@ export class DetalhesContatoComponent implements OnInit {
           this.contato = contato;
         },
         response => {
-          if (response.status == 404) {
-            this.router.navigate(['NotFound']);
-          }
-          else if (response.status == 401) {
+          if (response.status == 404)
+            this.router.navigate(['nao-encontrado']);
+          else if (response.status == 403)
             this.router.navigate(['acesso-negado']);
-          }
+          else if (response.status == 401)
+            this.router.navigate(['login']);
         });      
   }
 }
