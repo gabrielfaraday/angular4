@@ -59,7 +59,7 @@ export class RemoverContatoComponent implements OnInit {
         setTimeout(() => {
           this.toastr.dismissToast(toast);
           this.router.navigate(['/contatos']);
-        }, 2500);
+        }, 1000);
       });
   }
 

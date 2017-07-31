@@ -3,11 +3,17 @@ import { IMyOptions } from "mydatepicker";
 export class DateUtils {
 
     public static setMyDatePickerDate(myDate: any): Object {
+        if (myDate === null || myDate === undefined)
+            return null;
+
         let pickerDate = new Date(myDate);
         return { date: { year: pickerDate.getFullYear(), month: pickerDate.getMonth() + 1, day: pickerDate.getDate() } };
     }
 
     public static getMyDatePickerDate(myDate: any): Date {
+        if (myDate === null || myDate === undefined || myDate === '')
+            return null;
+
         return new Date(myDate.date.year, myDate.date.month - 1, myDate.date.day);
     }
 
@@ -21,9 +27,9 @@ export class DateUtils {
             showTodayBtn: false,
             firstDayOfWeek: "su",
             markCurrentDay: true,
-            minYear: dateNow.getFullYear(),
+            minYear: dateNow.getFullYear() - 100,
             maxYear: dateNow.getFullYear() + 3,
-            disableUntil: { year: dateNow.getFullYear(), month: dateNow.getUTCMonth() + 1, day: dateNow.getDate() - 1 },
+            disableUntil: { year: dateNow.getFullYear() - 100, month: dateNow.getUTCMonth() + 1, day: dateNow.getDate() - 1 },
             height: '34px',
             width: '284px'
         };

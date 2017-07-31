@@ -12,5 +12,5 @@ export class Contato {
     enderecoId: string;
     endereco: Endereco;
     telefones: Telefone[];
-    telefoneEmAlteracao: Telefone;
+    //telefoneEmAlteracao: Telefone;
 }

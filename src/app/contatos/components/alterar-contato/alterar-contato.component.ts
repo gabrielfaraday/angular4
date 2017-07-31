@@ -36,11 +36,11 @@ export class AlterarContatoComponent implements OnInit, AfterViewInit {
   contatoForm: FormGroup;
   telefoneForm: FormGroup;
   contato: Contato;
-  endereco: Endereco;
   telefone: Telefone;
   contatoId: string = "";
   private sub: Subscription;
   private modalVisible: boolean;
+  private tituloModal: string;
 
   constructor(private fb: FormBuilder,
     private contatoService: ContatoService,
@@ -60,6 +60,24 @@ export class AlterarContatoComponent implements OnInit, AfterViewInit {
       email: {
         required: 'Informe o e-mail',
         email: 'E-mail invalido'
+      },
+      logradouro: {
+        required: 'Informe o logradouro'
+      },
+      numero: {
+        required: 'Informe o número'
+      },
+      bairro: {
+        required: 'Informe o bairro'
+      },
+      cep: {
+        required: 'Informe o cep'
+      },
+      cidade: {
+        required: 'Informe o cidade'
+      },
+      estado: {
+        required: 'Informe o estado'
       }
     };
 
@@ -118,6 +136,9 @@ export class AlterarContatoComponent implements OnInit, AfterViewInit {
           if (response.status == 404) {
             this.router.navigate(['NotFound']);
           }
+          else if (response.status == 401) {
+            this.router.navigate(['acesso-negado']);
+          }
         });
   }
 
@@ -127,7 +148,7 @@ export class AlterarContatoComponent implements OnInit, AfterViewInit {
     this.contatoForm.patchValue({
       nome: this.contato.nome,
       email: this.contato.email,
-      dataNascimento: DateUtils.setMyDatePickerDate(this.contato.dataNascimento),
+      dataNascimento:  DateUtils.setMyDatePickerDate(this.contato.dataNascimento),
       logradouro: this.contato.endereco.logradouro,
       numero: this.contato.endereco.numero,
       complemento: this.contato.endereco.complemento,
@@ -136,13 +157,6 @@ export class AlterarContatoComponent implements OnInit, AfterViewInit {
       cidade: this.contato.endereco.cidade,
       estado: this.contato.endereco.estado
     });
-
-    // if (this.contato.telefones.some) {
-    //   this.telefoneForm.patchValue({
-    //     ddd: this.evento.endereco.logradouro,
-    //     numero: this.evento.endereco.numero,
-    //   });
-    // }
   }
 
   alterarContato() {
@@ -150,8 +164,15 @@ export class AlterarContatoComponent implements OnInit, AfterViewInit {
       let p = Object.assign({}, this.contato, this.contatoForm.value);
       let user = this.contatoService.obterUsuario();
       
-      //p.organizadorId = user.id;
       p.dataNascimento = DateUtils.getMyDatePickerDate(p.dataNascimento);
+
+      p.endereco.logradouro = p.logradouro;
+      p.endereco.numero = p.numero;
+      p.endereco.complemento = p.complemento;
+      p.endereco.bairro = p.bairro;
+      p.endereco.cep = p.cep;
+      p.endereco.cidade = p.cidade;
+      p.endereco.estado = p.estado;
 
       this.contatoService.alterarContato(p)
         .subscribe(
@@ -162,13 +183,25 @@ export class AlterarContatoComponent implements OnInit, AfterViewInit {
     }
   }
 
-  alterarTelefone() {
+  onSaveComplete(): void {
+    this.errors = [];
+
+    this.toastr.success('Contato Atualizado com Sucesso!', 'Oba :D', { dismiss: 'controlled' })
+      .then((toast: Toast) => {
+        setTimeout(() => {
+          this.toastr.dismissToast(toast);
+          this.router.navigate(['/contatos']);
+        }, 2500);
+      });
+  }
+
+  salvarTelefone() {
     if (this.telefoneForm.dirty && this.telefoneForm.valid) {
-      let p = Object.assign({}, this.endereco, this.telefoneForm.value);
+      let p = Object.assign({}, this.telefone, this.telefoneForm.value);
       p.contatoId = this.contatoId;
 
-      if (this.contato.telefoneEmAlteracao) {
-        p.id = this.contato.telefoneEmAlteracao.id;
+      if (this.telefone) {
+        p.id = this.telefone.id;
         this.contatoService.alterarTelefone(p)
           .subscribe(
             result => { this.onTelefoneSaveComplete() },
@@ -188,29 +221,38 @@ export class AlterarContatoComponent implements OnInit, AfterViewInit {
   }
 
   onTelefoneSaveComplete(): void {
-    this.hideModal();
+    if (this.telefone)
+      this.toastr.success('Telefone Alterado', 'Oba :D');
+    else
+      this.toastr.success('Telefone Adicionado', 'Oba :D');
 
-    this.toastr.success('Telefone Atualizado', 'Oba :D');
+    this.hideModal();
     this.obterContato(this.contatoId);
   }
 
-  onSaveComplete(): void {
-    this.errors = [];
-
-    this.toastr.success('Contato Atualizado com Sucesso!', 'Oba :D', { dismiss: 'controlled' })
-      .then((toast: Toast) => {
-        setTimeout(() => {
-          this.toastr.dismissToast(toast);
-          this.router.navigate(['/contatos']);
-        }, 2500);
-      });
-  }
-
-  public showModal(): void {
+  public showModal(telefoneEmAlteracao: Telefone): void {
+    if (telefoneEmAlteracao) {
+      this.preencherFormTelefone(telefoneEmAlteracao);
+      this.tituloModal = 'Alterar Telefone';
+    }
+    else {
+      this.telefone = null;
+      this.tituloModal = 'Adicionar Telefone';
+    }
+    
     this.modalVisible = true;
   }
 
   public hideModal(): void {
     this.modalVisible = false;
+  }
+
+  preencherFormTelefone(telefone: Telefone): void {
+    this.telefone = telefone;
+
+    this.telefoneForm.patchValue({
+      ddd: this.telefone.ddd,
+      numero: this.telefone.numero
+    });
   }
 }

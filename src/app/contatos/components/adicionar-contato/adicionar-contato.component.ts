@@ -18,7 +18,6 @@ import { ContatoService } from "../../services/contatos.service";
 import { GenericValidator } from "../../../utils/validation/generic-form-validator";
 import { Endereco } from "../../models/endereco";
 import { CustomValidators } from "ng2-validation/dist";
-import { StringUtils } from "../../../utils/data-types-utils/string-utils";
 
 @Component({
   selector: 'app-adicionar-contato',
@@ -111,8 +110,7 @@ export class AdicionarContatoComponent implements OnInit, AfterViewInit {
 
       let p = Object.assign({}, this.contato, this.contatoForm.value);
 
-      if (!StringUtils.isNullOrEmpty(p.dataNascimento))
-        p.dataNascimento = DateUtils.getMyDatePickerDate(p.dataNascimento);
+      p.dataNascimento = DateUtils.getMyDatePickerDate(p.dataNascimento);
       
       p.endereco.logradouro = p.logradouro;
       p.endereco.numero = p.numero;

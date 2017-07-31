@@ -39,6 +39,9 @@ export class DetalhesContatoComponent implements OnInit {
           if (response.status == 404) {
             this.router.navigate(['NotFound']);
           }
+          else if (response.status == 401) {
+            this.router.navigate(['acesso-negado']);
+          }
         });      
   }
 }
