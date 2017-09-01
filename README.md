@@ -86,3 +86,33 @@ Para este projeto base estamos utilizando algumas bibliotecas/componentes de ter
 Para verificar se há atualizações para os pacotes da aplicação utilize o comando: "ncu".
 	
 	-OBS: tenha muita atenção/cuidado ao atualizar a versão dos pacotes, certifique-se de que nada será "quebrado" após isso.
+	
+### RODANDO NO IIS
+
+Para rodar uma aplicação Angular no IIS, basta criar um novo website apontando para a pasta onde os arquivos angular vão ficar, expondo ele numa porta desejada.
+
+Porém para o IIS identificar as rotas do Angular é preciso fazer uma pequena configuração no servidor: é necessário instalar a extensão URL REWRITE.
+
+    - Acesse https://www.iis.net/downloads/microsoft/url-rewrite e instale a extensão no servidor onde o site rodará.
+    
+Além disso é necessário criar um arquivo we.config na pasta raiz do site, onde estará o arquivo index.html, com o seguinte conteúdo:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <system.webServer>
+    <rewrite>
+      <rules>
+		<rule name="Angular4" stopProcessing="true">
+			<match url=".*" />
+			<conditions logicalGrouping="MatchAll">
+				<add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
+				<add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
+			</conditions>
+			<action type="Rewrite" url="/" />
+		</rule>
+	  </rules>
+    </rewrite>
+  </system.webServer>
+</configuration>
+```
