@@ -27,7 +27,7 @@
       <div class="form-group" [ngClass]="{'has-error': displayMessage.email }">
         <label class="col-md-2 control-label" for="email">E-mail</label>
         <div class="col-md-10">
-          <input class="form-control" type="text" placeholder="E-mail" formControlName="email" />
+          <input class="form-control" id="email" type="text" placeholder="E-mail" formControlName="email" />
           <span class="text-danger" *ngIf="displayMessage.email">
               <p [innerHTML]="displayMessage.email"></p>
         </span>
@@ -37,7 +37,7 @@
       <div class="form-group" [ngClass]="{'has-error': displayMessage.dataNascimento }">
         <label class="col-md-2 control-label">Data de Nascimento</label>
         <div class="col-md-10">
-          <my-date-picker name="dataNascimento" [options]="myDatePickerOptions" formControlName="dataNascimento"></my-date-picker>
+          <my-date-picker id="dataNascimento" name="dataNascimento" [options]="myDatePickerOptions" formControlName="dataNascimento"></my-date-picker>
           <span class="text-danger" *ngIf="displayMessage.dataNascimento">
               <p [innerHTML]="displayMessage.dataNascimento"></p>
         </span>
@@ -51,7 +51,7 @@
         <div class="form-group" [ngClass]="{'has-error': displayMessage.logradouro }">
           <label class="col-md-2 control-label" for="logradouro">Logradouro</label>
           <div class="col-md-10">
-            <input class="form-control" type="text" placeholder="Logradouro" formControlName="logradouro" />
+            <input class="form-control" id="logradouro" type="text" placeholder="Logradouro" formControlName="logradouro" />
             <span class="text-danger" *ngIf="displayMessage.logradouro">
                 <p [innerHTML]="displayMessage.logradouro"></p>
           </span>
@@ -61,7 +61,7 @@
         <div class="form-group" [ngClass]="{'has-error': displayMessage.numero }">
           <label class="col-md-2 control-label" for="numero">Número</label>
           <div class="col-md-10">
-            <input class="form-control" type="text" placeholder="Número" formControlName="numero" />
+            <input class="form-control" id="numero" type="text" placeholder="Número" formControlName="numero" />
             <span class="text-danger" *ngIf="displayMessage.numero">
                 <p [innerHTML]="displayMessage.numero"></p>
           </span>
@@ -71,14 +71,14 @@
         <div class="form-group">
           <label class="col-md-2 control-label">Complemento</label>
           <div class="col-md-10">
-            <input class="form-control" type="text" placeholder="Complemento" formControlName="complemento" />
+            <input class="form-control" id="complemento" type="text" placeholder="Complemento" formControlName="complemento" />
           </div>
         </div>
 
         <div class="form-group" [ngClass]="{'has-error': displayMessage.bairro }">
           <label class="col-md-2 control-label" for="bairro">Bairro</label>
           <div class="col-md-10">
-            <input class="form-control" type="text" placeholder="Bairro" formControlName="bairro" />
+            <input class="form-control" id="bairro" type="text" placeholder="Bairro" formControlName="bairro" />
             <span class="text-danger" *ngIf="displayMessage.bairro">
                 <p [innerHTML]="displayMessage.bairro"></p>
           </span>
@@ -88,7 +88,7 @@
         <div class="form-group" [ngClass]="{'has-error': displayMessage.cep }">
           <label class="col-md-2 control-label" for="cep">CEP</label>
           <div class="col-md-10">
-            <input class="form-control" type="text" placeholder="CEP" formControlName="cep" />
+            <input class="form-control" id="cep" type="text" placeholder="CEP" formControlName="cep" />
             <span class="text-danger" *ngIf="displayMessage.cep">
                 <p [innerHTML]="displayMessage.cep"></p>
           </span>
@@ -98,7 +98,7 @@
         <div class="form-group" [ngClass]="{'has-error': displayMessage.cidade }">
           <label class="col-md-2 control-label" for="cidade">Cidade</label>
           <div class="col-md-10">
-            <input class="form-control" type="text" placeholder="Cidade" formControlName="cidade" />
+            <input class="form-control"  id="cidade" type="text" placeholder="Cidade" formControlName="cidade" />
             <span class="text-danger" *ngIf="displayMessage.cidade">
                 <p [innerHTML]="displayMessage.cidade"></p>
             </span>
@@ -108,7 +108,7 @@
         <div class="form-group" [ngClass]="{'has-error': displayMessage.estado }">
           <label class="col-md-2 control-label">Estado</label>
           <div class="col-md-10">
-            <select class="form-control" formControlName="estado">
+            <select class="form-control" formControlName="estado" id="estado">
               <option value="">Selecione</option>
               <option value="AC">Acre</option>
               <option value="AL">Alagoas</option>
@@ -147,7 +147,7 @@
 
       <div class="form-group">
         <div class="col-md-4 col-md-offset-2">
-          <span><button class="btn btn-success" type="submit">Criar</button></span>
+          <span><button class="btn btn-success" type="submit" id="adicionarContato">Criar</button></span>
           <a [routerLink]="['/contatos']" class="btn btn-primary">Voltar para a lista</a>
         </div>
       </div>

@@ -12,7 +12,7 @@ export abstract class BaseService {
 
   constructor() {  }
 
-  protected UrlService: string = "http://localhost:54822/api/";
+  protected UrlService: string = "http://localhost:64117/api/";
 
   protected obterAuthHeader(): RequestOptions {
     this.Token = localStorage.getItem('dnce.token');

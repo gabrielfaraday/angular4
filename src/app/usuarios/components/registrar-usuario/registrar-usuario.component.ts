@@ -53,11 +53,11 @@ export class RegistrarUsuarioComponent implements OnInit, AfterViewInit {
       },
       password: {
         required: 'Informe a senha',
-        minlength: 'A senha deve possuir no mínimo 6 caracteres'
+        minlength: 'A senha deve possuir no mínimo 4 caracteres'
       },
       confirmPassword: {
         required: 'Informe a senha novamente',
-        minlength: 'A senha deve possuir no mínimo 6 caracteres',
+        minlength: 'A senha deve possuir no mínimo 4 caracteres',
         equalTo: 'As senhas não conferem'
       }
     };
